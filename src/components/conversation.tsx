@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Textarea } from './ui/textarea';
 import { Button } from './ui/button';
-import { AudioLines } from 'lucide-react';
+import { ArrowUp, AudioLines } from 'lucide-react';
 
 interface MessageBubbleProps {
   message: string;
@@ -56,7 +56,7 @@ function Conversation({ initialMessage }: { initialMessage: string }) {
   };
 
   return (
-    <div className="flex flex-col flex-1 justify-between p-4 max-w-xl w-full mx-auto min-h-0">
+    <div className="flex flex-col flex-1 justify-between p-4 max-w-3xl w-full mx-auto min-h-0">
       <div className="flex flex-1 overflow-hidden min-h-0 flex-col gap-2 overflow-y-auto">
         {messages.map((message, index) => (
           <MessageBubble
@@ -81,8 +81,8 @@ function Conversation({ initialMessage }: { initialMessage: string }) {
             }
           }}
         />
-        <Button variant="outline" size="icon" onClick={handleSendMessage}>
-          <AudioLines />
+        <Button disabled={message.length === 0} variant="outline" size="icon" onClick={handleSendMessage}>
+          <ArrowUp />
         </Button>
       </div>
     </div>

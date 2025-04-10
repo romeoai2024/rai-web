@@ -1,4 +1,4 @@
-import { AudioLines } from 'lucide-react';
+import { ArrowUp, AudioLines } from 'lucide-react';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { useState } from 'react';
@@ -12,7 +12,6 @@ function InitialChatInput({
 
   const handleSendMessage = () => {
     passMessageToChat(message);
-    
   };
 
   return (
@@ -31,8 +30,8 @@ function InitialChatInput({
           }}
         />
         <div className="flex ml-auto">
-          <Button variant="outline" size="icon" onClick={handleSendMessage}>
-            <AudioLines />
+          <Button disabled={message.length === 0} variant="outline" size="icon" onClick={handleSendMessage}>
+            <ArrowUp />
           </Button>
         </div>
       </div>

@@ -4,7 +4,7 @@ import TopChatBar from '@/components/top-chat-bar';
 import { useState } from 'react';
 
 function Chat() {
-  const [message, setMessage] = useState<string | null>('Hey');
+  const [message, setMessage] = useState<string | null>(null);
 
   function handleMessageFromChild(message: string) {
     setMessage(message);

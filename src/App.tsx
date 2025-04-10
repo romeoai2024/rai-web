@@ -7,7 +7,7 @@ import Chat from './pages/Chat';
 function App() {
   return (
     <ThemeProvider>
-      <SidebarProvider>
+      <SidebarProvider defaultOpen={false}>
         <AppSidebar />
         <div className="h-screen w-screen bg-background">
           <Chat />
