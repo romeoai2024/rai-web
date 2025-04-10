@@ -1,13 +1,18 @@
 import './App.css';
+import { AppSidebar } from './components/app-sidebar';
 import { ThemeProvider } from './components/theme-provider';
+import { SidebarProvider } from './components/ui/sidebar';
 import Chat from './pages/Chat';
 
 function App() {
   return (
     <ThemeProvider>
-      <div className="min-h-svh w-screen bg-background">
-        <Chat />
-      </div>
+      <SidebarProvider>
+        <AppSidebar />
+        <div className="h-screen w-screen bg-background">
+          <Chat />
+        </div>
+      </SidebarProvider>
     </ThemeProvider>
   );
 }
