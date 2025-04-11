@@ -1,7 +1,7 @@
-import Conversation from '@/components/conversation';
-import InitialChatInput from '@/components/initial-chat-input';
-import TopChatBar from '@/components/top-chat-bar';
+import Conversation from '@/pages/chat/components/conversation';
 import { useState } from 'react';
+import TopChatBar from './components/top-chat-bar';
+import InitialChatInput from './components/initial-chat-input';
 
 function Chat() {
   const [message, setMessage] = useState<string | null>(null);

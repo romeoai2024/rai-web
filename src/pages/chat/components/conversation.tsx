@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Textarea } from './ui/textarea';
-import { Button } from './ui/button';
+import { Textarea } from '../../../components/ui/textarea';
+import { Button } from '../../../components/ui/button';
 import { ArrowUp, AudioLines } from 'lucide-react';
 
 interface MessageBubbleProps {
@@ -12,7 +12,7 @@ function MessageBubble({ message, isUser = false }: MessageBubbleProps) {
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-4`}>
       <div
-        className={`max-w-md rounded-lg px-4 py-2 ${
+        className={`max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl rounded-lg px-4 py-2 ${
           isUser
             ? 'bg-blue-500 text-white ml-12'
             : 'bg-neutral-800 text-white mr-12'
@@ -56,7 +56,7 @@ function Conversation({ initialMessage }: { initialMessage: string }) {
   };
 
   return (
-    <div className="flex flex-col flex-1 justify-between p-4 max-w-3xl w-full mx-auto min-h-0">
+    <div className="flex flex-col flex-1 justify-between p-4 max-w-5xl w-full mx-auto min-h-0">
       <div className="flex flex-1 overflow-hidden min-h-0 flex-col gap-2 overflow-y-auto">
         {messages.map((message, index) => (
           <MessageBubble
@@ -81,7 +81,12 @@ function Conversation({ initialMessage }: { initialMessage: string }) {
             }
           }}
         />
-        <Button disabled={message.length === 0} variant="outline" size="icon" onClick={handleSendMessage}>
+        <Button
+          disabled={message.length === 0}
+          variant="outline"
+          size="icon"
+          onClick={handleSendMessage}
+        >
           <ArrowUp />
         </Button>
       </div>

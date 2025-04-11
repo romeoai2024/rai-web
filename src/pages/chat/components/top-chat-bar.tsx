@@ -1,6 +1,6 @@
-import TopChatBarMenu from './top-chat-bar-menu';
-import { SidebarTrigger } from './ui/sidebar';
-import { UserCircle } from './user-circle';
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import TopChatBarMenu from "./top-chat-bar-menu";
+import { UserCircle } from "./user-circle";
 
 function TopChatBar() {
   return (
