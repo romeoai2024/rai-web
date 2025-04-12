@@ -7,6 +7,8 @@ import { Message } from '@/types/message';
 import { useRef, useState } from 'react';
 import FileUploadButton from './FileUploadButton';
 import FileCard, { FileCardData } from './FileCard';
+import { Badge } from '@/components/ui/badge';
+import ModeSelector from './ModeSelector';
 
 interface ChatTextAreaProps {
   message: Message;
@@ -70,12 +72,14 @@ function ChatTextArea({
           }
         }}
       />
-      <div className="absolute bottom-2 left-2">
+      <div className="absolute bottom-2 left-2 flex items-center gap-2">
         <FileUploadButton
           setFileCardData={setFileCardData}
           setBase64File={setBase64File}
           base64File={base64File}
         />
+
+        <ModeSelector />
       </div>
       <div className="absolute bottom-2 right-2">
         <AnimatePresence>

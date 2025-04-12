@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import ChatTextArea from './ChatTextArea';
+import ChatTextArea from './TextArea';
 import MessagesList from './MessagsList';
 import { Message } from '@/types/message';
 import { AnimatePresence, motion } from 'motion/react';
-import ChatWelcomeHeader from './ChatWelcomeHeader';
+import ChatWelcomeHeader from './WelcomeHeader';
 interface ChatProps {}
 
 function Chat({}: ChatProps) {
