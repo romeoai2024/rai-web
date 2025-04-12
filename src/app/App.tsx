@@ -1,8 +1,7 @@
-import './App.css';
-import { AppSidebar } from './components/app-sidebar';
-import { ThemeProvider } from './components/theme-provider';
-import { SidebarProvider } from './components/ui/sidebar';
-import Chat from './pages/chat/Chat';
+import { AppSidebar } from '../components/app-sidebar';
+import { ThemeProvider } from '../components/theme-provider';
+import { SidebarProvider } from '../components/ui/sidebar';
+import ChatLayout from './pages/chat/ChatLayout';
 
 function App() {
   return (
@@ -41,9 +40,8 @@ function App() {
             }}
           ></div>
 
-          {/* Your Chat component */}
           <div className="relative z-10 h-full w-full">
-            <Chat />
+            <ChatLayout />
           </div>
         </div>
       </SidebarProvider>
