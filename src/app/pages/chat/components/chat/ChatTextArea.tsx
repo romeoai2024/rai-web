@@ -4,6 +4,8 @@ import { Paperclip } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ArrowUp } from 'lucide-react';
 import { Message } from '@/types/message';
+import { useRef } from 'react';
+import FileUploadButton from './FileUploadButton';
 
 interface ChatTextAreaProps {
   message: Message;
@@ -42,9 +44,7 @@ function ChatTextArea({
         }}
       />
       <div className="absolute bottom-2 left-2">
-        <Button variant="outline" size="icon">
-          <Paperclip />
-        </Button>
+        <FileUploadButton />
       </div>
       <div className="absolute bottom-2 right-2">
         <AnimatePresence>
