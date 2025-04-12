@@ -13,6 +13,8 @@ interface ChatTextAreaProps {
   setMessage: (message: Message) => void;
   handleSendMessage: () => void;
   show: boolean;
+  setBase64File: (base64File: string | null) => void;
+  base64File: string | null;
 }
 
 function ChatTextArea({
@@ -20,8 +22,9 @@ function ChatTextArea({
   setMessage,
   handleSendMessage,
   show,
+  setBase64File,
+  base64File,
 }: ChatTextAreaProps) {
-  const [base64File, setBase64File] = useState<string | null>(null);
   const [fileCardData, setFileCardData] = useState<FileCardData | null>(null);
 
   function handleMessageChange(setMessage: (message: Message) => void) {
@@ -36,6 +39,7 @@ function ChatTextArea({
 
   function handleRemoveFile() {
     setFileCardData(null);
+    setBase64File(null);
   }
 
   return (

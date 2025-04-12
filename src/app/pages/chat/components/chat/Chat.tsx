@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import MessageBubble from './MessageBubble';
 import ChatTextArea from './ChatTextArea';
 import MessagesList from './MessagsList';
 import { Message } from '@/types/message';
-
+import { AnimatePresence, motion } from 'motion/react';
+import ChatWelcomeHeader from './ChatWelcomeHeader';
 interface ChatProps {}
 
 function Chat({}: ChatProps) {
@@ -13,6 +13,7 @@ function Chat({}: ChatProps) {
     timestamp: new Date(),
   });
   const [messages, setMessages] = useState<Message[]>([]);
+  const [base64File, setBase64File] = useState<string | null>(null);
 
   const handleSendMessage = () => {
     if (!message.text.trim()) return;
@@ -34,7 +35,10 @@ function Chat({}: ChatProps) {
       {messages.length > 0 && <MessagesList messages={messages} />}
 
       <div className="flex flex-col gap-2 w-full max-w-3xl relative">
+        {messages.length === 0 && base64File === null && <ChatWelcomeHeader />}
         <ChatTextArea
+          base64File={base64File}
+          setBase64File={setBase64File}
           message={message}
           setMessage={setMessage}
           handleSendMessage={handleSendMessage}
