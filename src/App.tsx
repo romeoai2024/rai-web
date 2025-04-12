@@ -10,16 +10,32 @@ function App() {
       <SidebarProvider defaultOpen={false}>
         <AppSidebar />
         <div className="relative h-screen w-screen bg-background">
-          {/* SVG noise filter definition */}
+          {/* SVG noise filter definition with grayscale */}
           <svg className="hidden">
             <filter id="noise">
-              <feTurbulence type="fractalNoise" baseFrequency="0.8" />
+              {/* Create fractal noise first */}
+              <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.8"
+                numOctaves="2"
+                result="noise"
+              />
+
+              {/* Convert the noise to grayscale with enhanced contrast */}
+              <feColorMatrix
+                in="noise"
+                type="matrix"
+                values="0.5 0.5 0.5 0 0
+                    0.5 0.5 0.5 0 0
+                    0.5 0.5 0.5 0 0
+                    0 0 0 1 0"
+              />
             </filter>
           </svg>
 
-          {/* Noise overlay */}
+          {/* Noise overlay with increased opacity */}
           <div
-            className="absolute inset-0 opacity-20 pointer-events-none"
+            className="absolute inset-0 opacity-15 pointer-events-none"
             style={{
               filter: 'url(#noise)',
             }}
