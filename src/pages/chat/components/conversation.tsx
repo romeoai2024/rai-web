@@ -47,7 +47,7 @@ function Conversation({ initialMessage }: { initialMessage: string }) {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<string[]>([
     initialMessage,
-    ...mockConversation,
+    // ...mockConversation,
   ]);
 
   const handleSendMessage = () => {
@@ -56,7 +56,7 @@ function Conversation({ initialMessage }: { initialMessage: string }) {
   };
 
   return (
-    <div className="flex flex-col flex-1 justify-between p-4 max-w-5xl w-full mx-auto min-h-0">
+    <div className="flex flex-col flex-1 justify-between p-4 max-w-3xl w-full mx-auto min-h-0">
       <div className="flex flex-1 overflow-hidden min-h-0 flex-col gap-2 overflow-y-auto">
         {messages.map((message, index) => (
           <MessageBubble
@@ -69,9 +69,9 @@ function Conversation({ initialMessage }: { initialMessage: string }) {
       {/* <div className="ml-auto">
         <MessageBubble message={initialMessage} />
       </div> */}
-      <div className="flex flex-row items-end gap-2">
+      <div className="relative">
         <Textarea
-          className="w-full resize-none"
+          className="w-full resize-none pr-12"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={(e) => {
@@ -81,14 +81,16 @@ function Conversation({ initialMessage }: { initialMessage: string }) {
             }
           }}
         />
-        <Button
-          disabled={message.length === 0}
-          variant="outline"
-          size="icon"
-          onClick={handleSendMessage}
-        >
-          <ArrowUp />
-        </Button>
+        <div className="absolute bottom-2 right-2">
+          <Button
+            disabled={message.length === 0}
+            variant="outline"
+            size="icon"
+            onClick={handleSendMessage}
+          >
+            <ArrowUp />
+          </Button>
+        </div>
       </div>
     </div>
   );
