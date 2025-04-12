@@ -4,8 +4,9 @@ import { Paperclip } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ArrowUp } from 'lucide-react';
 import { Message } from '@/types/message';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import FileUploadButton from './FileUploadButton';
+import FileCard, { FileCardData } from './FileCard';
 
 interface ChatTextAreaProps {
   message: Message;
@@ -14,24 +15,46 @@ interface ChatTextAreaProps {
   show: boolean;
 }
 
-function handleMessageChange(setMessage: (message: Message) => void) {
-  return (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMessage({
-      text: e.target.value,
-      timestamp: new Date(),
-      isUser: true,
-    });
-  };
-}
-
 function ChatTextArea({
   message,
   setMessage,
   handleSendMessage,
   show,
 }: ChatTextAreaProps) {
+  const [base64File, setBase64File] = useState<string | null>(null);
+  const [fileCardData, setFileCardData] = useState<FileCardData | null>(null);
+
+  function handleMessageChange(setMessage: (message: Message) => void) {
+    return (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setMessage({
+        text: e.target.value,
+        timestamp: new Date(),
+        isUser: true,
+      });
+    };
+  }
+
+  function handleRemoveFile() {
+    setFileCardData(null);
+  }
+
   return (
-    <div className="flex flex-col gap-2 w-full max-w-3xl relative">
+    <div className="flex flex-col w-full max-w-3xl relative">
+      <AnimatePresence>
+        {fileCardData && (
+          <motion.div
+            className="absolute -top-22 left-0"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -20, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <FileCard file={fileCardData} handleRemoveFile={handleRemoveFile} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* {fileCardData && <FileCard file={fileCardData} />} */}
       <Textarea
         className="w-full max-w-3xl resize-none pb-14"
         value={message.text}
@@ -44,7 +67,11 @@ function ChatTextArea({
         }}
       />
       <div className="absolute bottom-2 left-2">
-        <FileUploadButton />
+        <FileUploadButton
+          setFileCardData={setFileCardData}
+          setBase64File={setBase64File}
+          base64File={base64File}
+        />
       </div>
       <div className="absolute bottom-2 right-2">
         <AnimatePresence>

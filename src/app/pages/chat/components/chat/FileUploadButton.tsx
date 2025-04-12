@@ -1,10 +1,26 @@
 import { Button } from '@/components/ui/button';
-import { Paperclip } from 'lucide-react';
-import { useRef, useState } from 'react';
 
-function FileUploadButton() {
-  const [base64File, setBase64File] = useState<string | null>(null);
+import { Paperclip } from 'lucide-react';
+import { useRef, useEffect } from 'react';
+import { FileCardData } from './FileCard';
+
+function FileUploadButton({
+  setFileCardData,
+  setBase64File,
+  base64File,
+}: {
+  setFileCardData: (fileCardData: FileCardData) => void;
+  setBase64File: (base64File: string) => void;
+  base64File: string | null;
+}) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Reset file input when file is removed
+  useEffect(() => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  }, [base64File]);
 
   const handleFileUpload = () => {
     fileInputRef.current?.click();
@@ -20,6 +36,12 @@ function FileUploadButton() {
       alert('Please upload a PDF or JPEG file only');
       return;
     }
+
+    setFileCardData({
+      name: file.name,
+      type: file.type,
+      size: file.size,
+    });
 
     // Handle the file upload here
     const base64File = await convertFileToBase64(file);

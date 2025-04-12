@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import MessageBubble from './MessageBubble';
 import ChatTextArea from './ChatTextArea';
-import MessagesList from './MessagesList';
+import MessagesList from './MessagsList';
 import { Message } from '@/types/message';
 
 interface ChatProps {}
