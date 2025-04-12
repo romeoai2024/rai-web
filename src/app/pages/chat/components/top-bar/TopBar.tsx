@@ -1,15 +1,17 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import TopChatBarMenu from './TopChatBarMenu';
-import { UserCircle } from './UserCircle';
 
 function TopChatBar() {
   return (
     <div className="w-full flex items-center justify-between h-16 px-4">
       <div className="flex items-center gap-2">
         <SidebarTrigger />
-        <TopChatBarMenu />
+        {/* <TopChatBarMenu /> */}
       </div>
-      <UserCircle />
+      <Avatar>
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
     </div>
   );
 }

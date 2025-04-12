@@ -1,5 +1,5 @@
 import Chat from './components/chat/Chat';
-import TopChatBar from './components/top-bar/top-chat-bar';
+import TopChatBar from './components/top-bar/TopBar';
 
 function ChatLayout() {
   return (
