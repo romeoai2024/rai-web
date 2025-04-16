@@ -4,10 +4,9 @@ import { Paperclip } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ArrowUp } from 'lucide-react';
 import { Message } from '@/types/message';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import FileUploadButton from './FileUploadButton';
 import FileCard, { FileCardData } from './FileCard';
-import { Badge } from '@/components/ui/badge';
 import ModeSelector from './ModeSelector';
 
 interface ChatTextAreaProps {
@@ -17,6 +16,7 @@ interface ChatTextAreaProps {
   show: boolean;
   setBase64File: (base64File: string | null) => void;
   base64File: string | null;
+  clearFileCardData: () => void;
 }
 
 function ChatTextArea({
@@ -28,6 +28,12 @@ function ChatTextArea({
   base64File,
 }: ChatTextAreaProps) {
   const [fileCardData, setFileCardData] = useState<FileCardData | null>(null);
+  const [mode, setMode] = useState<'chat' | 'format'>('chat');
+
+  const handleSendMessageAndClear = () => {
+    handleSendMessage();
+    setFileCardData(null);
+  };
 
   function handleMessageChange(setMessage: (message: Message) => void) {
     return (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -62,26 +68,37 @@ function ChatTextArea({
 
       {/* {fileCardData && <FileCard file={fileCardData} />} */}
       <Textarea
-        className="w-full max-w-3xl resize-none pb-14"
+        disabled={mode === 'format'}
+        className={`w-full max-w-3xl resize-none ${
+          mode === 'chat' ? 'pb-14' : '!cursor-default'
+        }`}
         value={message.text}
         onChange={handleMessageChange(setMessage)}
         onKeyDown={(e) => {
           if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            handleSendMessage();
+            handleSendMessageAndClear();
           }
         }}
       />
-      <div className="absolute bottom-2 left-2 flex items-center gap-2">
+      <div
+        className={`absolute bottom-2 left-2 flex items-center gap-2 ${
+          mode === 'chat' ? 'bottom-2' : 'bottom-4'
+        }`}
+      >
         <FileUploadButton
           setFileCardData={setFileCardData}
           setBase64File={setBase64File}
           base64File={base64File}
         />
 
-        <ModeSelector />
+        <ModeSelector mode={mode} setMode={setMode} />
       </div>
-      <div className="absolute bottom-2 right-2">
+      <div
+        className={`absolute bottom-2 right-2 ${
+          mode === 'chat' ? 'bottom-2' : 'bottom-4'
+        }`}
+      >
         <AnimatePresence>
           {show && (
             <motion.div
@@ -90,10 +107,10 @@ function ChatTextArea({
               transition={{ duration: 0.1 }}
             >
               <Button
-                disabled={message.text.length === 0}
+                disabled={message.text.length === 0 && fileCardData === null}
                 variant="outline"
                 size="icon"
-                onClick={handleSendMessage}
+                onClick={handleSendMessageAndClear}
               >
                 <ArrowUp />
               </Button>

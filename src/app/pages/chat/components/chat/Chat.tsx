@@ -2,8 +2,9 @@ import { useState } from 'react';
 import ChatTextArea from './TextArea';
 import MessagesList from './MessagsList';
 import { Message } from '@/types/message';
-import { AnimatePresence, motion } from 'motion/react';
 import ChatWelcomeHeader from './WelcomeHeader';
+import { FileCardData } from './FileCard';
+
 interface ChatProps {}
 
 function Chat({}: ChatProps) {
@@ -14,6 +15,7 @@ function Chat({}: ChatProps) {
   });
   const [messages, setMessages] = useState<Message[]>([]);
   const [base64File, setBase64File] = useState<string | null>(null);
+  const [fileCardData, setFileCardData] = useState<FileCardData | null>(null);
 
   const handleSendMessage = () => {
     if (!message.text.trim()) return;
@@ -24,6 +26,8 @@ function Chat({}: ChatProps) {
       isUser: false,
       timestamp: new Date(),
     });
+    setBase64File(null);
+    setFileCardData(null);
   };
 
   return (
@@ -43,6 +47,7 @@ function Chat({}: ChatProps) {
           setMessage={setMessage}
           handleSendMessage={handleSendMessage}
           show={true}
+          clearFileCardData={() => setFileCardData(null)}
         />
       </div>
     </div>

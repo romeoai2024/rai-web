@@ -1,18 +1,21 @@
-import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 
-function ModeSelector() {
-  const [chatOrFormat, setChatOrFormat] = useState<'chat' | 'format'>('chat');
-
+function ModeSelector({
+  mode,
+  setMode,
+}: {
+  mode: 'chat' | 'format';
+  setMode: (mode: 'chat' | 'format') => void;
+}) {
   return (
     <>
       <Badge
         variant="outline"
-        onClick={() => setChatOrFormat('chat')}
+        onClick={() => setMode('chat')}
         className={`
             cursor-pointer transition-colors
             ${
-              chatOrFormat === 'chat'
+              mode === 'chat'
                 ? 'bg-primary text-primary-foreground hover:bg-primary/90'
                 : 'hover:bg-primary/10'
             }
@@ -22,11 +25,11 @@ function ModeSelector() {
       </Badge>
       <Badge
         variant="outline"
-        onClick={() => setChatOrFormat('format')}
+        onClick={() => setMode('format')}
         className={`
             cursor-pointer transition-colors
             ${
-              chatOrFormat === 'format'
+              mode === 'format'
                 ? 'bg-primary text-primary-foreground hover:bg-primary/90'
                 : 'hover:bg-primary/10'
             }
