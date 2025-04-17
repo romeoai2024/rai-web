@@ -16,7 +16,6 @@ interface ChatTextAreaProps {
   show: boolean;
   setBase64File: (base64File: string | null) => void;
   base64File: string | null;
-  clearFileCardData: () => void;
 }
 
 function ChatTextArea({

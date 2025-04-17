@@ -20,6 +20,9 @@ function Chat({}: ChatProps) {
   const handleSendMessage = () => {
     if (!message.text.trim()) return;
 
+    console.log('sending message', message);
+    console.log('base64File', base64File);
+
     setMessages([...messages, message]);
     setMessage({
       text: '',
@@ -47,7 +50,6 @@ function Chat({}: ChatProps) {
           setMessage={setMessage}
           handleSendMessage={handleSendMessage}
           show={true}
-          clearFileCardData={() => setFileCardData(null)}
         />
       </div>
     </div>
