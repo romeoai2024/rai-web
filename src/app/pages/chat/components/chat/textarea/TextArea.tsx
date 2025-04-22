@@ -9,28 +9,33 @@ import FileCard, { FileCardData } from '../files/FileCard';
 import FileUploadButton from '../files/FileUploadButton';
 
 interface ChatTextAreaProps {
-  message: Message;
+  sendMessage: (message: Message) => void;
+  message: Message | null;
   setMessage: (message: Message) => void;
-  handleSendMessage: () => void;
-  show: boolean;
-  setBase64File: (base64File: string | null) => void;
+  fileCardData: FileCardData | null;
+  setFileCardData: (fileCardData: FileCardData | null) => void;
   base64File: string | null;
+  setBase64File: (base64File: string | null) => void;
+  show: boolean;
 }
 
 function ChatTextArea({
+  sendMessage,
   message,
   setMessage,
-  handleSendMessage,
-  show,
-  setBase64File,
+  fileCardData,
+  setFileCardData,
   base64File,
+  setBase64File,
+  show,
 }: ChatTextAreaProps) {
-  const [fileCardData, setFileCardData] = useState<FileCardData | null>(null);
   const [mode, setMode] = useState<'chat' | 'format'>('chat');
 
   const handleSendMessageAndClear = () => {
-    handleSendMessage();
-    setFileCardData(null);
+    if (message) {
+      sendMessage(message);
+      setFileCardData(null);
+    }
   };
 
   function handleMessageChange(setMessage: (message: Message) => void) {
@@ -70,7 +75,7 @@ function ChatTextArea({
         className={`w-full max-w-3xl resize-none ${
           mode === 'chat' ? 'pb-14' : '!cursor-default'
         }`}
-        value={message.text}
+        value={message?.text || ''}
         onChange={handleMessageChange(setMessage)}
         onKeyDown={(e) => {
           if (e.key === 'Enter' && !e.shiftKey) {
@@ -105,7 +110,7 @@ function ChatTextArea({
               transition={{ duration: 0.1 }}
             >
               <Button
-                disabled={message.text.length === 0 && fileCardData === null}
+                disabled={!message || message.text.length === 0 && fileCardData === null}
                 variant="outline"
                 size="icon"
                 onClick={handleSendMessageAndClear}

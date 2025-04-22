@@ -5,34 +5,27 @@ import { Message } from '@/types/message';
 import ChatWelcomeHeader from './textarea/WelcomeHeader';
 import { FileCardData } from './files/FileCard';
 
-interface ChatProps {}
+interface ChatProps {
+  sendMessage: (message: Message) => void;
+  message: Message | null;
+  setMessage: (message: Message) => void;
+  messages: (Message | FileCardData)[];
+  base64File: string | null;
+  setBase64File: (base64File: string | null) => void;
+  fileCardData: FileCardData | null;
+  setFileCardData: (fileCardData: FileCardData | null) => void;
+}
 
-function Chat({}: ChatProps) {
-  const [message, setMessage] = useState<Message>({
-    text: '',
-    isUser: true,
-    timestamp: new Date(),
-  });
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [base64File, setBase64File] = useState<string | null>(null);
-  const [fileCardData, setFileCardData] = useState<FileCardData | null>(null);
-
-  const handleSendMessage = () => {
-    if (!message.text.trim()) return;
-
-    console.log('sending message', message);
-    console.log('base64File', base64File);
-
-    setMessages([...messages, message]);
-    setMessage({
-      text: '',
-      isUser: false,
-      timestamp: new Date(),
-    });
-    setBase64File(null);
-    setFileCardData(null);
-  };
-
+function Chat({
+  sendMessage,
+  message,
+  setMessage,
+  messages,
+  base64File,
+  setBase64File,
+  fileCardData,
+  setFileCardData,
+}: ChatProps) {
   return (
     <div
       className={`flex flex-col flex-1 ${
@@ -46,10 +39,12 @@ function Chat({}: ChatProps) {
         <ChatTextArea
           base64File={base64File}
           setBase64File={setBase64File}
+          show={true}
+          sendMessage={sendMessage}
           message={message}
           setMessage={setMessage}
-          handleSendMessage={handleSendMessage}
-          show={true}
+          fileCardData={fileCardData}
+          setFileCardData={setFileCardData}
         />
       </div>
     </div>
