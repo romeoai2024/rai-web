@@ -1,9 +1,11 @@
-import { useState } from 'react';
-import ChatTextArea from './TextArea';
-import MessagesList from './MessagsList';
+import { useEffect, useState } from 'react';
+import ChatTextArea from './textarea/TextArea';
+import MessagesList from './messages/MessagsList';
 import { Message } from '@/types/message';
-import ChatWelcomeHeader from './WelcomeHeader';
-import { FileCardData } from './FileCard';
+import ChatWelcomeHeader from './textarea/WelcomeHeader';
+import { useGetChats } from '@/hooks/use-get-chats';
+import { Chat as ChatType } from '@/types/chat';
+import { FileCardData } from './files/FileCard';
 
 interface ChatProps {}
 
@@ -13,12 +15,33 @@ function Chat({}: ChatProps) {
     isUser: true,
     timestamp: new Date(),
   });
+  const [chat, setChat] = useState<ChatType | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [base64File, setBase64File] = useState<string | null>(null);
   const [fileCardData, setFileCardData] = useState<FileCardData | null>(null);
 
+  const [chats, updateChats] = useGetChats();
+
+  useEffect(() => {
+    if (chats.length > 0) {
+      setChat(chats[0]);
+      setMessages(chats[0].messages);
+    }
+  }, [chats]);
+
+  const createNewChat = (message: Message) => {
+    setChat({
+      messages: [message],
+      timestamp: new Date(),
+    });
+  };
+
   const handleSendMessage = () => {
     if (!message.text.trim()) return;
+
+    if (!chat) {
+      createNewChat(message);
+    }
 
     console.log('sending message', message);
     console.log('base64File', base64File);

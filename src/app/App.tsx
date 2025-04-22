@@ -1,13 +1,17 @@
-import { AppSidebar } from '../components/app-sidebar';
+import { AppSidebar } from '@/components/sidebar/Sidebar';
 import { ThemeProvider } from '../components/theme-provider';
 import { SidebarProvider } from '../components/ui/sidebar';
 import ChatLayout from './pages/chat/ChatLayout';
+import { useState } from 'react';
+import { Chat } from '@/types/chat';
 
 function App() {
+  const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
+
   return (
     <ThemeProvider>
       <SidebarProvider defaultOpen={false}>
-        <AppSidebar />
+        <AppSidebar setSelectedChat={setSelectedChat} />
         <div className="relative h-screen w-screen bg-background">
           {/* SVG noise filter definition with grayscale */}
           <svg className="hidden">

@@ -1,5 +1,6 @@
-import MessageBubble from './MessageBubble';
+
 import { Message } from '@/types/message';
+import MessageBubble from './MessageBubble';
 
 function MessagesList({ messages }: { messages: Message[] }) {
   return (

@@ -1,13 +1,12 @@
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Paperclip } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ArrowUp } from 'lucide-react';
 import { Message } from '@/types/message';
 import { useState } from 'react';
-import FileUploadButton from './FileUploadButton';
-import FileCard, { FileCardData } from './FileCard';
 import ModeSelector from './ModeSelector';
+import FileCard, { FileCardData } from '../files/FileCard';
+import FileUploadButton from '../files/FileUploadButton';
 
 interface ChatTextAreaProps {
   message: Message;
