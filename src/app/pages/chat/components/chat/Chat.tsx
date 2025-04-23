@@ -4,9 +4,16 @@ import MessagesList from './messages/MessagsList';
 import { Message } from '@/types/message';
 import ChatWelcomeHeader from './textarea/WelcomeHeader';
 import { FileCardData } from './files/FileCard';
+import { ChatType } from '@/types/chat';
 
 interface ChatProps {
-  sendMessage: (message: Message) => void;
+  send: ({
+    message,
+    fileCardData,
+  }: {
+    message: Message | null;
+    fileCardData: FileCardData | null;
+  }) => void;
   message: Message | null;
   setMessage: (message: Message) => void;
   messages: (Message | FileCardData)[];
@@ -14,10 +21,11 @@ interface ChatProps {
   setBase64File: (base64File: string | null) => void;
   fileCardData: FileCardData | null;
   setFileCardData: (fileCardData: FileCardData | null) => void;
+  chat: ChatType | null;
 }
 
 function Chat({
-  sendMessage,
+  send,
   message,
   setMessage,
   messages,
@@ -25,14 +33,19 @@ function Chat({
   setBase64File,
   fileCardData,
   setFileCardData,
+  chat,
 }: ChatProps) {
   return (
     <div
       className={`flex flex-col flex-1 ${
-        messages.length === 0 ? 'justify-center' : 'justify-between'
+        chat && chat.messages && chat.messages.length > 0
+          ? 'justify-between'
+          : 'justify-center'
       } p-4 max-w-3xl w-full mx-auto min-h-0`}
     >
-      {messages.length > 0 && <MessagesList messages={messages} />}
+      {chat && chat.messages && chat.messages.length > 0 && (
+        <MessagesList messages={chat.messages} />
+      )}
 
       <div className="flex flex-col gap-2 w-full max-w-3xl relative">
         {messages.length === 0 && base64File === null && <ChatWelcomeHeader />}
@@ -40,7 +53,7 @@ function Chat({
           base64File={base64File}
           setBase64File={setBase64File}
           show={true}
-          sendMessage={sendMessage}
+          send={send}
           message={message}
           setMessage={setMessage}
           fileCardData={fileCardData}

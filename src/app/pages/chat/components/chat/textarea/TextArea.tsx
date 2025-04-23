@@ -9,7 +9,13 @@ import FileCard, { FileCardData } from '../files/FileCard';
 import FileUploadButton from '../files/FileUploadButton';
 
 interface ChatTextAreaProps {
-  sendMessage: (message: Message) => void;
+  send: ({
+    message,
+    fileCardData,
+  }: {
+    message: Message | null;
+    fileCardData: FileCardData | null;
+  }) => void;
   message: Message | null;
   setMessage: (message: Message) => void;
   fileCardData: FileCardData | null;
@@ -20,7 +26,7 @@ interface ChatTextAreaProps {
 }
 
 function ChatTextArea({
-  sendMessage,
+  send,
   message,
   setMessage,
   fileCardData,
@@ -31,11 +37,10 @@ function ChatTextArea({
 }: ChatTextAreaProps) {
   const [mode, setMode] = useState<'chat' | 'format'>('chat');
 
-  const handleSendMessageAndClear = () => {
-    if (message) {
-      sendMessage(message);
-      setFileCardData(null);
-    }
+  const handleSend = () => {
+    console.log('handleSend', message, fileCardData);
+    send({ message, fileCardData });
+    setFileCardData(null);
   };
 
   function handleMessageChange(setMessage: (message: Message) => void) {
@@ -80,7 +85,7 @@ function ChatTextArea({
         onKeyDown={(e) => {
           if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            handleSendMessageAndClear();
+            handleSend();
           }
         }}
       />
@@ -110,10 +115,13 @@ function ChatTextArea({
               transition={{ duration: 0.1 }}
             >
               <Button
-                disabled={!message || message.text.length === 0 && fileCardData === null}
+                disabled={
+                  (!message || message.text.length === 0) &&
+                  fileCardData === null
+                }
                 variant="outline"
                 size="icon"
-                onClick={handleSendMessageAndClear}
+                onClick={handleSend}
               >
                 <ArrowUp />
               </Button>
