@@ -6,12 +6,10 @@ import { FileCardData } from './FileCard';
 
 function FileUploadButton({
   setFileCardData,
-  setBase64File,
-  base64File,
+  fileCardData,
 }: {
   setFileCardData: (fileCardData: FileCardData) => void;
-  setBase64File: (base64File: string) => void;
-  base64File: string | null;
+  fileCardData: FileCardData | null;
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -20,7 +18,7 @@ function FileUploadButton({
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
-  }, [base64File]);
+  }, [fileCardData]);
 
   const handleFileUpload = () => {
     fileInputRef.current?.click();
@@ -30,23 +28,20 @@ function FileUploadButton({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
     const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg'];
     if (!validTypes.includes(file.type)) {
       alert('Please upload a PDF or JPEG file only');
       return;
     }
 
+    const base64File = await convertFileToBase64(file);
+
     setFileCardData({
       name: file.name,
       type: file.type,
       size: file.size,
+      base64file: base64File,
     });
-
-    // Handle the file upload here
-    const base64File = await convertFileToBase64(file);
-    setBase64File(base64File);
-    // You can add your file upload logic here
   };
 
   const convertFileToBase64 = (file: File): Promise<string> => {

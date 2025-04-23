@@ -20,8 +20,6 @@ interface ChatTextAreaProps {
   setMessage: (message: Message) => void;
   fileCardData: FileCardData | null;
   setFileCardData: (fileCardData: FileCardData | null) => void;
-  base64File: string | null;
-  setBase64File: (base64File: string | null) => void;
   show: boolean;
 }
 
@@ -31,14 +29,11 @@ function ChatTextArea({
   setMessage,
   fileCardData,
   setFileCardData,
-  base64File,
-  setBase64File,
   show,
 }: ChatTextAreaProps) {
   const [mode, setMode] = useState<'chat' | 'format'>('chat');
 
   const handleSend = () => {
-    console.log('handleSend', message, fileCardData);
     send({ message, fileCardData });
     setFileCardData(null);
   };
@@ -55,7 +50,6 @@ function ChatTextArea({
 
   function handleRemoveFile() {
     setFileCardData(null);
-    setBase64File(null);
   }
 
   return (
@@ -95,9 +89,8 @@ function ChatTextArea({
         }`}
       >
         <FileUploadButton
+          fileCardData={fileCardData}
           setFileCardData={setFileCardData}
-          setBase64File={setBase64File}
-          base64File={base64File}
         />
 
         <ModeSelector mode={mode} setMode={setMode} />

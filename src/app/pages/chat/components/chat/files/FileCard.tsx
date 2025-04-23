@@ -11,6 +11,7 @@ export interface FileCardData {
   name: string | null | undefined;
   type: string | null | undefined;
   size: number | null | undefined;
+  base64file: string | null;
 }
 
 function FileCard({
