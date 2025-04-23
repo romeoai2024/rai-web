@@ -4,6 +4,7 @@ import Chat from './Chat';
 import { FileCardData } from './files/FileCard';
 import { v4 as uuidv4 } from 'uuid';
 import { ChatType } from '@/types/chat';
+import { useChats } from '@/hooks/use-chats';
 
 function ChatContainer() {
   const [chats, setChats] = useState<ChatType[]>([]);
@@ -12,6 +13,11 @@ function ChatContainer() {
   const [message, setMessage] = useState<Message | null>(null);
   const [base64File, setBase64File] = useState<string | null>(null);
   const [fileCardData, setFileCardData] = useState<FileCardData | null>(null);
+  const {
+    addChatToLocalStorage,
+    addChatsToLocalStorage,
+    updateChatInLocalStorage,
+  } = useChats();
 
   useEffect(() => {
     if (!chat) {
@@ -33,6 +39,7 @@ function ChatContainer() {
   };
 
   const createNewChat = () => {
+    console.log('createNewChat');
     const newChat: ChatType = {
       id: uuidv4(),
       messages: [],
@@ -40,12 +47,18 @@ function ChatContainer() {
     };
 
     setChat(newChat);
+    addChatToLocalStorage(newChat);
   };
 
-  const addChatToLocalStorage = (chat: ChatType) => {
-    setChats([...chats, chat]);
-    localStorage.setItem('chats', JSON.stringify(chats));
-  };
+  // const addChatToLocalStorage = (chat: ChatType) => {
+  //   setChats([...chats, chat]);
+  //   localStorage.setItem('chats', JSON.stringify(chats));
+  // };
+
+  // const updateChatInLocalStorage = (chat: ChatType) => {
+  //   setChats(chats.map((c) => (c.id === chat.id ? chat : c)));
+  //   localStorage.setItem('chats', JSON.stringify(chats));
+  // };
 
   const send = ({
     message,
@@ -73,6 +86,7 @@ function ChatContainer() {
       ...chat,
       messages: [...chat.messages, ...chatItems],
     });
+    updateChatInLocalStorage(chat);
   };
 
   return (
