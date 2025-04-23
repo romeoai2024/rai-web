@@ -48,7 +48,9 @@ function Chat({
       )}
 
       <div className="flex flex-col gap-2 w-full max-w-3xl relative">
-        {messages.length === 0 && base64File === null && <ChatWelcomeHeader />}
+        {chat?.messages &&
+          chat.messages.length === 0 &&
+          base64File === null && <ChatWelcomeHeader />}
         <ChatTextArea
           base64File={base64File}
           setBase64File={setBase64File}

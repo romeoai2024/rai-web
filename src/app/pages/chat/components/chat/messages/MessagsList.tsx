@@ -8,12 +8,14 @@ function MessagesList({ messages }: { messages: (Message | FileCardData)[] }) {
       {messages.map((message, index) =>
         'text' in message ? (
           <MessageBubble
-            isUser={index % 2 === 0}
+            isUser={message.isUser}
             key={index}
             message={message}
           />
         ) : (
-          <FileCard key={index} file={message} handleRemoveFile={() => {}} />
+          <div key={index} className="flex justify-end">
+            <FileCard file={message} handleRemoveFile={() => {}} />
+          </div>
         ),
       )}
     </div>

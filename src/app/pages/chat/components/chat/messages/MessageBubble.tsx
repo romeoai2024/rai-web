@@ -7,7 +7,7 @@ interface MessageBubbleProps {
 
 function MessageBubble({ message, isUser = false }: MessageBubbleProps) {
   return (
-    <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-4`}>
+    <div className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
       <div
         className={`max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl rounded-lg px-4 py-2 ${
           isUser
