@@ -2,6 +2,7 @@ import { Message } from '@/types/message';
 import { useState } from 'react';
 import Chat from './Chat';
 import { FileCardData } from './files/FileCard';
+import axios from 'axios';
 
 function ChatContainer() {
   const [messages, setMessages] = useState<(Message | FileCardData)[]>([]);
@@ -15,24 +16,29 @@ function ChatContainer() {
     message: Message | null;
     fileCardData: FileCardData | null;
   }) => {
-    // TODO: send message and file to server
-    console.log(fileCardData);
+    // First add local message/fileCard to messages
+    if (message) setMessages((prevMessages) => [...prevMessages, message]);
+    if (fileCardData)
+      setMessages((prevMessages) => [...prevMessages, fileCardData]);
 
-    addMessageOrFileCardToMessages({ message, fileCardData });
+    // Then make the API call
+    axios
+      .post('https://echo.free.beeceptor.com', { message, fileCardData })
+      .then((response) => {
+        const responseMessage = response.data.parsedBody.message as Message;
+        responseMessage.isUser = false;
+        responseMessage.text =
+          'Response to message: ' + response.data.parsedBody.message.text;
+
+        // Add response message to messages
+        setMessages((prevMessages) => [...prevMessages, responseMessage]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
     setMessage(null);
     setFileCardData(null);
-  };
-
-  const addMessageOrFileCardToMessages = ({
-    message,
-    fileCardData,
-  }: {
-    message: Message | null;
-    fileCardData: FileCardData | null;
-  }) => {
-    if (message) setMessages([...messages, message]);
-    if (fileCardData) setMessages([...messages, fileCardData]);
   };
 
   return (
