@@ -1,4 +1,3 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 
 function TopChatBar() {
@@ -8,10 +7,10 @@ function TopChatBar() {
         <SidebarTrigger />
         {/* <TopChatBarMenu /> */}
       </div>
-      <Avatar>
+      {/* <Avatar>
         <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
         <AvatarFallback>CN</AvatarFallback>
-      </Avatar>
+      </Avatar> */}
     </div>
   );
 }
